@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SoundCloud Downloader</title>
+</head>
+<body>
+    <h1>SoundCloud Downloader Pro</h1>
+    <input type="text" id="url" placeholder="Paste SoundCloud URL here" style="width: 500px; padding: 10px;">
+    <button onclick="download()">Download</button>
+    
+    <div id="result" style="display: none; margin-top: 20px; padding: 20px; background: #f0f0f0;">
+        <h3>Download Command:</h3>
+        <p id="command"></p>
+    </div>
+    
+    <script>
+        function download() {
+            var url = document.getElementById('url').value;
+            if (url) {
+                document.getElementById('command').textContent = 'yt-dlp -x --audio-format mp3 "' + url + '"';
+                document.getElementById('result').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
