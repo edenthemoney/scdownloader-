@@ -146,6 +146,10 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/sitemap.xml')
+def sitemap():
+    return render_template('sitemap.xml'), 200, {'Content-Type': 'application/xml'}
+
 @app.route('/download', methods=['POST'])
 def start_download():
     data = request.json
