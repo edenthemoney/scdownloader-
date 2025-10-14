@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdSense Test Page</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5331539730424594"
+         crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #FF5500;
+            text-align: center;
+        }
+        
+        .ad-box {
+            background: #f9f9f9;
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .checklist li:before {
+            content: "☐ ";
+            margin-right: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 AdSense Test & Debug Page</h1>
+    
+    <div class="test-section">
+        <h2>Publisher Information</h2>
+        <p><strong>Publisher ID:</strong> <code>ca-pub-5331539730424594</code></p>
+        <p><strong>Domain:</strong> <code>soundcloudfreeplaylistdownloader.xyz</code></p>
+        <p><strong>ads.txt URL:</strong> <a href="/ads.txt" target="_blank">Check ads.txt file</a></p>
+    </div>
+    
+    <div class="test-section">
+        <h2>Ad Status</h2>
+        <div id="adStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Ad Unit</h2>
+        <p>If AdSense is working, you should see an ad below:</p>
+        
+        <div class="ad-box">
+            <!-- Google AdSense Test Ad -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-5331539730424594"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Troubleshooting Checklist</h2>
+        <ul class="checklist">
+            <li>AdSense account is approved</li>
+            <li>Domain added to AdSense Sites</li>
+            <li>ads.txt file is accessible</li>
+            <li>No ad blocker is active</li>
+            <li>Site has been live for 24+ hours</li>
+            <li>No JavaScript errors in console</li>
+            <li>Testing in incognito mode</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Console Debug Info</h2>
+        <div class="info-box">
+            <p>Open your browser console (F12 or Cmd+Option+I) to see detailed debug information.</p>
+            <p>Look for messages starting with "🔍 AdSense Debug Info"</p>
+        </div>
+        <div id="consoleOutput" style="background: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Common Issues & Solutions</h2>
+        
+        <div class="info-box">
+            <h3>❌ No ads showing?</h3>
+            <ol>
+                <li><strong>New Account:</strong> AdSense needs 24-48 hours to start serving ads</li>
+                <li><strong>Low Traffic:</strong> New sites need some traffic before ads appear</li>
+                <li><strong>Ad Blocker:</strong> Disable all browser extensions and test</li>
+                <li><strong>Domain Not Approved:</strong> Check AdSense dashboard</li>
+                <li><strong>Policy Issues:</strong> Review AdSense Policy Center</li>
+            </ol>
+        </div>
+        
+        <div class="info-box">
+            <h3>✅ What to do next?</h3>
+            <ol>
+                <li>Wait 24-48 hours after adding your site to AdSense</li>
+                <li>Drive some organic traffic to your site</li>
+                <li>Check AdSense dashboard for approval status</li>
+                <li>Verify ads.txt is accessible</li>
+                <li>Test on different devices and browsers</li>
+            </ol>
+        </div>
+    </div>
+    
+    <script>
+        // Comprehensive AdSense Debug Logger
+        const consoleOutput = document.getElementById('consoleOutput');
+        const adStatus = document.getElementById('adStatus');
+        
+        function log(message, type = 'info') {
+            console.log(message);
+            const timestamp = new Date().toLocaleTimeString();
+            consoleOutput.innerHTML += `[${timestamp}] ${message}\n`;
+        }
+        
+        function updateStatus(message, type) {
+            adStatus.innerHTML += `<div class="status ${type}">${message}</div>`;
+        }
+        
+        // Initial checks
+        log('🔍 Starting AdSense diagnostics...');
+        log('Publisher ID: ca-pub-5331539730424594');
+        log('Domain: ' + window.location.hostname);
+        
+        // Check if AdSense script loaded
+        setTimeout(function() {
+            if (typeof adsbygoogle !== 'undefined') {
+                log('✅ AdSense script loaded successfully');
+                updateStatus('✅ AdSense script loaded', 'success');
+            } else {
+                log('❌ AdSense script NOT loaded - check for blockers');
+                updateStatus('❌ AdSense script not loaded - Ad blocker may be active', 'error');
+            }
+            
+            // Count ad slots
+            const adSlots = document.querySelectorAll('.adsbygoogle');
+            log(`Found ${adSlots.length} ad slot(s) on page`);
+            
+            // Check ad blocker
+            const testAd = document.querySelector('.adsbygoogle');
+            if (testAd && testAd.offsetHeight === 0) {
+                log('⚠️ Ad slot has 0 height - likely blocked');
+                updateStatus('⚠️ Ads may be blocked by browser extension', 'warning');
+            }
+            
+        }, 1000);
+        
+        // Check ad fill status after 3 seconds
+        setTimeout(function() {
+            const adSlots = document.querySelectorAll('.adsbygoogle');
+            let filledCount = 0;
+            
+            adSlots.forEach((ad, index) => {
+                const status = ad.getAttribute('data-adsbygoogle-status');
+                const isFilled = status === 'done';
+                
+                log(`Ad Slot ${index + 1}: ${status || 'pending'} ${isFilled ? '✅' : '❌'}`);
+                
+                if (isFilled) {
+                    filledCount++;
+                }
+            });
+            
+            log(`\nTotal ads filled: ${filledCount}/${adSlots.length}`);
+            
+            if (filledCount === 0) {
+                log('\n⚠️ NO ADS SHOWING - Possible reasons:');
+                log('1. AdSense account not approved yet');
+                log('2. Domain not added to AdSense');
+                log('3. Ad blocker is active');
+                log('4. Site is too new (needs 24-48 hours)');
+                log('5. Low/no traffic');
+                log('6. ads.txt file missing or incorrect');
+                log('\n📋 Action items:');
+                log('- Check AdSense dashboard for approval');
+                log('- Verify domain is added to Sites');
+                log('- Test with ad blocker disabled');
+                log('- Wait 24-48 hours if site is new');
+                log('- Check: ' + window.location.origin + '/ads.txt');
+                
+                updateStatus('❌ No ads filled - See console for details', 'error');
+            } else if (filledCount < adSlots.length) {
+                log(`\n⚠️ Only ${filledCount} out of ${adSlots.length} ads filled`);
+                updateStatus(`⚠️ Partial ad fill: ${filledCount}/${adSlots.length} ads showing`, 'warning');
+            } else {
+                log('\n✅ All ads filled successfully!');
+                updateStatus('✅ All ads are showing correctly!', 'success');
+            }
+            
+            // Check for errors
+            const errors = document.querySelectorAll('.adsbygoogle[data-ad-status="unfilled"]');
+            if (errors.length > 0) {
+                log(`\n❌ ${errors.length} ad(s) marked as unfilled by AdSense`);
+            }
+            
+        }, 4000);
+        
+        // Monitor for ad load events
+        window.addEventListener('load', function() {
+            log('\n📄 Page fully loaded');
+            
+            // Check ads.txt
+            fetch('/ads.txt')
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('ads.txt not found (404)');
+                    }
+                })
+                .then(text => {
+                    log('✅ ads.txt file is accessible');
+                    log('ads.txt content: ' + text.trim());
+                    updateStatus('✅ ads.txt file is accessible', 'success');
+                })
+                .catch(error => {
+                    log('❌ ads.txt error: ' + error.message);
+                    updateStatus('❌ ads.txt file not accessible - this is required!', 'error');
+                });
+        });
+    </script>
+</body>
+</html>

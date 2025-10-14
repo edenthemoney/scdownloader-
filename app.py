@@ -146,9 +146,19 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/ad-test')
+def ad_test():
+    """AdSense testing and debugging page"""
+    return render_template('ad-test.html')
+
 @app.route('/sitemap.xml')
 def sitemap():
     return render_template('sitemap.xml'), 200, {'Content-Type': 'application/xml'}
+
+@app.route('/ads.txt')
+def ads_txt():
+    """Serve ads.txt file for AdSense verification"""
+    return send_file('ads.txt', mimetype='text/plain')
 
 @app.route('/download', methods=['POST'])
 def start_download():

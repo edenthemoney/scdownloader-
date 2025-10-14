@@ -23,6 +23,15 @@
     <meta property="twitter:title" content="SoundCloud to MP3 Converter - Free Download">
     <meta property="twitter:description" content="Convert SoundCloud to MP3 and download playlists in 320kbps quality. Free online converter.">
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX'); // Replace with your actual GA4 ID
+    </script>
+
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5331539730424594"
          crossorigin="anonymous"></script>
@@ -900,6 +909,36 @@
             if (e.key === 'Enter') {
                 startDownload();
             }
+        });
+        
+        // AdSense Debug Logger
+        window.addEventListener('load', function() {
+            console.log('🔍 AdSense Debug Info:');
+            console.log('Publisher ID: ca-pub-5331539730424594');
+            console.log('AdSense Script Loaded:', typeof adsbygoogle !== 'undefined');
+            console.log('Number of ad slots on page:', document.querySelectorAll('.adsbygoogle').length);
+            
+            // Check if ads are filled after 3 seconds
+            setTimeout(function() {
+                const adSlots = document.querySelectorAll('.adsbygoogle');
+                let filledCount = 0;
+                adSlots.forEach((ad, index) => {
+                    const isFilled = ad.getAttribute('data-adsbygoogle-status') === 'done';
+                    console.log(`Ad Slot ${index + 1}:`, isFilled ? '✅ Filled' : '❌ Not filled');
+                    if (isFilled) filledCount++;
+                });
+                console.log(`Total ads filled: ${filledCount}/${adSlots.length}`);
+                
+                if (filledCount === 0) {
+                    console.warn('⚠️ No ads are showing. Possible reasons:');
+                    console.warn('1. AdSense account not approved yet');
+                    console.warn('2. Domain not added to AdSense');
+                    console.warn('3. Ad blocker is active');
+                    console.warn('4. Low traffic (new site)');
+                    console.warn('5. Missing ads.txt file');
+                    console.warn('Check: https://soundcloudfreeplaylistdownloader.xyz/ads.txt');
+                }
+            }, 3000);
         });
     </script>
 </body>
