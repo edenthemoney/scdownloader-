@@ -151,6 +151,11 @@ def ad_test():
     """AdSense testing and debugging page"""
     return render_template('ad-test.html')
 
+@app.route('/adsense-diagnostic')
+def adsense_diagnostic():
+    """Comprehensive 72+ hour AdSense diagnostic page"""
+    return render_template('adsense-diagnostic.html')
+
 @app.route('/sitemap.xml')
 def sitemap():
     return render_template('sitemap.xml'), 200, {'Content-Type': 'application/xml'}
@@ -158,7 +163,12 @@ def sitemap():
 @app.route('/ads.txt')
 def ads_txt():
     """Serve ads.txt file for AdSense verification"""
-    return send_file('ads.txt', mimetype='text/plain')
+    ads_txt_path = Path('ads.txt')
+    if ads_txt_path.exists():
+        return send_file(ads_txt_path, mimetype='text/plain')
+    else:
+        # Fallback: return content directly
+        return 'google.com, pub-5331539730424594, DIRECT, f08c47fec0942fa0', 200, {'Content-Type': 'text/plain'}
 
 @app.route('/download', methods=['POST'])
 def start_download():
