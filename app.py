@@ -169,6 +169,15 @@ def propeller_sw():
     else:
         return 'Service worker not found', 404
 
+@app.route('/sw-multitag.js')
+def propeller_multitag():
+    """Serve PropellerAds multitag service worker"""
+    sw_path = Path('sw-multitag.js')
+    if sw_path.exists():
+        return send_file(sw_path, mimetype='application/javascript')
+    else:
+        return 'Service worker not found', 404
+
 @app.route('/ads.txt')
 def ads_txt():
     """Serve ads.txt file for AdSense verification"""
