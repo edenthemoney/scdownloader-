@@ -160,6 +160,15 @@ def adsense_diagnostic():
 def sitemap():
     return render_template('sitemap.xml'), 200, {'Content-Type': 'application/xml'}
 
+@app.route('/sw.js')
+def propeller_sw():
+    """Serve PropellerAds service worker for verification"""
+    sw_path = Path('sw.js')
+    if sw_path.exists():
+        return send_file(sw_path, mimetype='application/javascript')
+    else:
+        return 'Service worker not found', 404
+
 @app.route('/ads.txt')
 def ads_txt():
     """Serve ads.txt file for AdSense verification"""
