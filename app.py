@@ -65,31 +65,34 @@ def download_audio(url, download_id):
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
-                'preferredquality': '192',  # Reduced from 320 to speed up conversion
+                'preferredquality': '256',  # Sweet spot: great quality, fast conversion
             }],
             'outtmpl': str(output_path / '%(playlist_index)s - %(title)s.%(ext)s'),
             'progress_hooks': [progress_hook],
-            'quiet': True,  # Reduce output to prevent hanging
+            'quiet': True,
             'no_warnings': True,
-            'extract_flat': False,  # Must be False to download all playlist items
-            'ignoreerrors': True,  # Continue on individual track errors in playlists
-            'noplaylist': False,  # Ensure playlists are processed
-            'yes_playlist': True,  # Force playlist download
-            'playlistend': None,  # Download all items, no limit
-            'concurrent_fragment_downloads': 4,  # Reduced to avoid overwhelming FFmpeg
-            'http_chunk_size': 10485760,  # 10MB chunks for faster downloads
-            'retries': 10,  # Retry failed downloads
-            'fragment_retries': 10,  # Retry failed fragments
-            'skip_unavailable_fragments': False,  # Ensure complete tracks
-            'keepvideo': False,  # Remove temp files to save space
-            'writethumbnail': False,  # Skip thumbnails for speed
-            'writesubtitles': False,  # Skip subtitles for speed
+            'extract_flat': False,
+            'ignoreerrors': True,
+            'noplaylist': False,
+            'yes_playlist': True,
+            'playlistend': None,
+            'concurrent_fragment_downloads': 8,  # Increased for faster downloads
+            'http_chunk_size': 10485760,
+            'retries': 5,  # Reduced retries for speed
+            'fragment_retries': 5,
+            'skip_unavailable_fragments': False,
+            'keepvideo': False,
+            'writethumbnail': False,
+            'writesubtitles': False,
             'postprocessor_args': [
-                '-threads', '2',  # Reduced threads to prevent hanging
-                '-loglevel', 'panic',  # Minimal logging to prevent blocking
+                '-threads', '0',  # Auto-detect optimal threads
+                '-preset', 'ultrafast',  # Fastest encoding preset
+                '-q:a', '2',  # High quality VBR (Variable Bit Rate)
+                '-compression_level', '0',  # Fastest compression
+                '-loglevel', 'panic',
             ],
-            'prefer_ffmpeg': True,  # Explicitly prefer FFmpeg
-            'fixup': 'detect_or_warn',  # Auto-fix file issues
+            'prefer_ffmpeg': True,
+            'fixup': 'detect_or_warn',
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
