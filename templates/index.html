@@ -43,9 +43,6 @@
         gtag('config', 'G-XXXXXXXXXX'); // Replace with your actual GA4 ID
     </script>
 
-    <!-- PropellerAds Multitag (All Ad Formats) -->
-    <script src="https://fpyf8.com/88/tag.min.js" data-zone="180533" async data-cfasync="false"></script>
-    
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5331539730424594"
          crossorigin="anonymous"></script>
@@ -919,10 +916,26 @@
                         spinner.style.display = 'none';
                         downloadBtn.disabled = false;
                         clearInterval(statusCheckInterval);
+                    } else if (data.status === 'not_found') {
+                        statusMessage.textContent = data.message || 'Download session expired. Please try again.';
+                        statusMessage.className = 'status-message error';
+                        spinner.style.display = 'none';
+                        downloadBtn.disabled = false;
+                        clearInterval(statusCheckInterval);
                     }
                 })
                 .catch(error => {
                     console.error('Status check error:', error);
+                    const statusMessage = document.getElementById('statusMessage');
+                    const spinner = document.getElementById('spinner');
+                    const downloadBtn = document.getElementById('downloadBtn');
+                    statusMessage.textContent = 'Connection error. Please check your internet and try again.';
+                    statusMessage.className = 'status-message error';
+                    spinner.style.display = 'none';
+                    downloadBtn.disabled = false;
+                    if (statusCheckInterval) {
+                        clearInterval(statusCheckInterval);
+                    }
                 });
         }
         

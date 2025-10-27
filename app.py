@@ -231,11 +231,36 @@ def start_download():
 
 @app.route('/status/<download_id>')
 def get_status(download_id):
-    status = download_status.get(download_id, {
+    # Check if download exists in memory
+    if download_id in download_status:
+        return jsonify(download_status[download_id])
+    
+    # Check if ZIP file exists (download might have completed)
+    zip_path = DOWNLOAD_DIR / download_id / 'soundcloud_download.zip'
+    if zip_path.exists():
+        # Reconstruct status from existing files
+        files = []
+        for file in (DOWNLOAD_DIR / download_id).glob('*.mp3'):
+            files.append({
+                'name': file.name,
+                'size': f"{file.stat().st_size / (1024*1024):.2f} MB"
+            })
+        return jsonify({
+            'status': 'completed',
+            'progress': 100,
+            'message': f'Successfully downloaded {len(files)} track(s)!',
+            'files': files,
+            'download_id': download_id,
+            'zip_ready': True,
+            'zip_size': f"{zip_path.stat().st_size / (1024*1024):.2f} MB"
+        })
+    
+    # Download not found
+    return jsonify({
         'status': 'not_found',
-        'message': 'Download not found'
+        'message': 'Download session expired or not found. Please try again.',
+        'error': True
     })
-    return jsonify(status)
 
 @app.route('/download-zip/<download_id>')
 def download_zip(download_id):
