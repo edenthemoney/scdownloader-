@@ -65,12 +65,12 @@ def download_audio(url, download_id):
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
-                'preferredquality': '320',
+                'preferredquality': '192',  # Reduced from 320 to speed up conversion
             }],
             'outtmpl': str(output_path / '%(playlist_index)s - %(title)s.%(ext)s'),
             'progress_hooks': [progress_hook],
-            'quiet': False,
-            'no_warnings': False,
+            'quiet': True,  # Reduce output to prevent hanging
+            'no_warnings': True,
             'extract_flat': False,  # Must be False to download all playlist items
             'ignoreerrors': True,  # Continue on individual track errors in playlists
             'noplaylist': False,  # Ensure playlists are processed
@@ -85,8 +85,8 @@ def download_audio(url, download_id):
             'writethumbnail': False,  # Skip thumbnails for speed
             'writesubtitles': False,  # Skip subtitles for speed
             'postprocessor_args': [
-                '-threads', '4',  # Limit threads to avoid FFmpeg crashes
-                '-loglevel', 'error',  # Reduce FFmpeg verbosity
+                '-threads', '2',  # Reduced threads to prevent hanging
+                '-loglevel', 'panic',  # Minimal logging to prevent blocking
             ],
             'prefer_ffmpeg': True,  # Explicitly prefer FFmpeg
             'fixup': 'detect_or_warn',  # Auto-fix file issues
