@@ -33,13 +33,32 @@ def download_audio(url, download_id):
         def progress_hook(d):
             if d['status'] == 'downloading':
                 try:
-                    percent = d.get('_percent_str', '0%').strip()
-                    download_status[download_id]['progress'] = percent
-                    download_status[download_id]['message'] = f'Downloading: {percent}'
-                except:
-                    pass
+                    # Try to get numeric progress
+                    if 'downloaded_bytes' in d and 'total_bytes' in d:
+                        percent = (d['downloaded_bytes'] / d['total_bytes']) * 100
+                        download_status[download_id]['progress'] = int(percent)
+                        download_status[download_id]['message'] = f'Downloading: {int(percent)}%'
+                    elif 'downloaded_bytes' in d and 'total_bytes_estimate' in d:
+                        percent = (d['downloaded_bytes'] / d['total_bytes_estimate']) * 100
+                        download_status[download_id]['progress'] = int(percent)
+                        download_status[download_id]['message'] = f'Downloading: {int(percent)}%'
+                    else:
+                        # Fallback to string parsing
+                        percent_str = d.get('_percent_str', '0%').strip().replace('%', '')
+                        try:
+                            percent = float(percent_str)
+                            download_status[download_id]['progress'] = int(percent)
+                            download_status[download_id]['message'] = f'Downloading: {int(percent)}%'
+                        except:
+                            download_status[download_id]['progress'] = 50
+                            download_status[download_id]['message'] = 'Downloading...'
+                except Exception as e:
+                    print(f"Progress hook error: {e}")
+                    download_status[download_id]['progress'] = 50
+                    download_status[download_id]['message'] = 'Downloading...'
             elif d['status'] == 'finished':
-                download_status[download_id]['message'] = 'Processing...'
+                download_status[download_id]['progress'] = 90
+                download_status[download_id]['message'] = 'Converting to MP3...'
         
         ydl_opts = {
             'format': 'bestaudio/best',
@@ -104,6 +123,7 @@ def download_audio(url, download_id):
                 raise Exception("No tracks were successfully downloaded. Check if the URL is valid or tracks are available.")
             
             # Create ZIP file with all tracks (use STORED for speed since MP3s are already compressed)
+            download_status[download_id]['progress'] = 95
             download_status[download_id]['message'] = 'Creating ZIP file...'
             zip_path = output_path / 'soundcloud_download.zip'
             
