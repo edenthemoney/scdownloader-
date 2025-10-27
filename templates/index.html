@@ -873,6 +873,9 @@
             fetch(`/status/${currentDownloadId}`)
                 .then(response => response.json())
                 .then(data => {
+                    // Log progress for debugging
+                    console.log('Download status:', data.status, 'Progress:', data.progress, 'Message:', data.message);
+                    
                     const statusMessage = document.getElementById('statusMessage');
                     const progressFill = document.getElementById('progressFill');
                     const filesList = document.getElementById('filesList');
@@ -881,11 +884,15 @@
                     
                     statusMessage.textContent = data.message;
                     
+                    // Update progress bar for any status with progress data
+                    if (data.progress !== undefined && data.progress !== null) {
+                        const progress = typeof data.progress === 'string' ? 
+                            parseFloat(data.progress.toString().replace('%', '')) : data.progress;
+                        progressFill.style.width = progress + '%';
+                    }
+                    
                     if (data.status === 'downloading') {
                         statusMessage.className = 'status-message';
-                        const progress = typeof data.progress === 'string' ? 
-                            parseFloat(data.progress) : data.progress;
-                        progressFill.style.width = progress + '%';
                     } else if (data.status === 'completed') {
                         statusMessage.className = 'status-message success';
                         progressFill.style.width = '100%';
